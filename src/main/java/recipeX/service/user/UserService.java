@@ -50,17 +50,15 @@ public class UserService implements DefaultUserService {
 
   @Override
   public Mono<RestRecipeXUser> getUser(UUID userId) {
-    var userStringId = uuidMapper.toString(userId);
-
     log.info("Retrieving user with ID: {}", userId);
 
-    return dbUserRepository.findById(userStringId)
-        .flatMap(dbUser -> dbRecipeRepository.findByUserId(userStringId)
+    return dbUserRepository.findById(uuidMapper.toString(userId))
+        .flatMap(dbUser -> dbRecipeRepository.findByUserId(dbUser.getId())
             .collectList()
-            .map(dbUser::setRecipes))
-        .doOnSuccess(user -> log.info(USER_RETRIEVED_MESSAGE, userId))
-        .doOnError(error -> log.error(USER_NOT_FOUND_MESSAGE, userId))
-        .map(restMapper::toRestDto);
+            .doOnNext(dbUser::setRecipes)
+            .thenReturn(dbUser))
+        .map(restMapper::toRestDto)
+        .doOnSuccess(user -> log.info(user != null ? USER_RETRIEVED_MESSAGE : USER_NOT_FOUND_MESSAGE, userId));
   }
 
   @Override

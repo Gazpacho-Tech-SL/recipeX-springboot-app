@@ -9,8 +9,8 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import reactor.test.StepVerifier;
 import recipeX.DefaultSpringBootTest;
-import recipeX.db.DbUserRecipe;
 import recipeX.domain.Ids;
+import recipeX.domain.UserRecipe;
 import recipeX.mapper.DbMapper;
 import recipeX.mapper.RestMapper;
 import recipeX.mongo.DbRecipeRepository;
@@ -51,9 +51,7 @@ class RecipeServiceTest extends DefaultSpringBootTest {
 
   @Test
   void getRecipe_shouldReturnRecipeSuccessfully() {
-    var dbUserRecipe = new DbUserRecipe()
-        .setRecipeId(String.valueOf(userRecipe().getRecipeId()))
-        .setUserId(String.valueOf(userId));
+    var dbUserRecipe = dbMapper.toDbDto(restUserRecipe());
 
     dbRecipeRepository.save(dbUserRecipe).block();
 
@@ -93,12 +91,15 @@ class RecipeServiceTest extends DefaultSpringBootTest {
   @Test
   void getRecipeByTags_shouldReturnRecipesSuccessfully() {
     var dbUserRecipe = dbMapper.toDbDto(testRecipe());
+    var dbUserRecipe2 = dbMapper.toDbDto(testRecipe2());
 
-    dbRecipeRepository.save(dbUserRecipe);
+    dbRecipeRepository.save(dbUserRecipe).block();
+    dbRecipeRepository.save(dbUserRecipe2).block();
+
     var result = recipeService.getRecipeByTags(List.of("tag3"));
 
     StepVerifier.create(result)
-        .expectNext(restMapper.toRestDto(dbUserRecipe))
+        .expectNextCount(2)
         .verifyComplete();
   }
 
@@ -147,7 +148,7 @@ class RecipeServiceTest extends DefaultSpringBootTest {
         .setRecipeId(String.valueOf(recipeId))
         .setUserId(String.valueOf(userId));
 
-    var dbUserRecipe = dbMapper.toDbDto(userRecipe());
+    var dbUserRecipe = dbMapper.toDbDto(restUserRecipe());
 
     dbRecipeRepository.save(dbUserRecipe).block();
 
@@ -165,8 +166,21 @@ class RecipeServiceTest extends DefaultSpringBootTest {
         .verifyComplete();
   }
 
-  RestUserRecipe userRecipe() {
+  RestUserRecipe restUserRecipe() {
     return new RestUserRecipe()
+        .setRecipeId(userId)
+        .setUserId(recipeId)
+        .setTitle("Sample Recipe Title")
+        .setDescription("This is a sample recipe description.")
+        .setIngredients(List.of("Ingredient 1", "Ingredient 2", "Ingredient 3"))
+        .setInstructions(List.of("Step 1: Do this", "Step 2: Do that"))
+        .setTags(List.of("tag1", "tag2"))
+        .setImageUrl("http://example.com/image.jpg")
+        .setImageUploadUrl("http://example.com/upload");
+  }
+
+  UserRecipe userRecipe() {
+    return new UserRecipe()
         .setRecipeId(userId)
         .setUserId(recipeId)
         .setTitle("Sample Recipe Title")
@@ -180,10 +194,19 @@ class RecipeServiceTest extends DefaultSpringBootTest {
 
   RestUserRecipe testRecipe() {
     return new RestUserRecipe()
-        .setRecipeId(recipeId)
-        .setUserId(userId)
+        .setRecipeId(UUID.fromString("7f2d50f9-6a41-47f1-937b-c91d3f0fd8f1"))
+        .setUserId(UUID.fromString("f9b3b0ec-8fbb-4b91-9ff1-5b45c6b0e05a"))
         .setTitle("Test RecipeX")
         .setDescription("This is a test recipe description.")
+        .setTags(Collections.singletonList("tag3"));
+  }
+
+  RestUserRecipe testRecipe2() {
+    return new RestUserRecipe()
+        .setRecipeId(UUID.fromString("7f2d50f9-6a41-47f1-937b-c91d3f0fd8f2"))
+        .setUserId(UUID.fromString("f9b3b0ec-8fbb-4b91-9ff1-5b45c6b0e05a"))
+        .setTitle("Test RecipeX 2")
+        .setDescription("This is a test recipe description 2.")
         .setTags(Collections.singletonList("tag3"));
   }
 }

@@ -9,6 +9,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import recipeX.db.DbUserRecipe;
 import recipeX.domain.Ids;
+import recipeX.domain.UserRecipe;
 import recipeX.domain.Username;
 import recipeX.rest.RestRecipeXUser;
 import recipeX.rest.RestUserRecipe;
@@ -35,7 +36,7 @@ public class RecipeXController implements RecipeXApi {
   }
 
   @Override
-  public Flux<DbUserRecipe> createRecipes(UUID userId, List<RestUserRecipe> recipes) {
+  public Flux<DbUserRecipe> createRecipes(UUID userId, List<UserRecipe> recipes) {
     return recipeService.createRecipes(userId, recipes);
   }
 
@@ -55,7 +56,7 @@ public class RecipeXController implements RecipeXApi {
   }
 
   @Override
-  public Mono<RestUserRecipe> updateRecipe(RestUserRecipe recipe) {
+  public Mono<RestUserRecipe> updateRecipe(UserRecipe recipe) {
     return recipeService.updateRecipe(recipe);
   }
 

@@ -14,6 +14,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import recipeX.db.DbUserRecipe;
 import recipeX.domain.Ids;
+import recipeX.domain.UserRecipe;
 import recipeX.domain.Username;
 import recipeX.rest.RestRecipeXUser;
 import recipeX.rest.RestUserRecipe;
@@ -25,7 +26,7 @@ public interface RecipeXApi {
 
   @PostMapping("/recipes/{userId}")
   Flux<DbUserRecipe> createRecipes(@PathVariable("userId") UUID userId,
-                                   @RequestBody List<RestUserRecipe> restUserRecipes);
+                                  @Valid @RequestBody List<UserRecipe> userRecipes);
 
   @GetMapping("/user/{userId}")
   Mono<RestRecipeXUser> getUser(@PathVariable("userId") UUID userId);
@@ -40,7 +41,7 @@ public interface RecipeXApi {
   Flux<RestUserRecipe> getRecipeByTags(@RequestParam List<String> tags);
 
   @PutMapping("/recipe")
-  Mono<RestUserRecipe> updateRecipe(@Valid @RequestBody RestUserRecipe recipe);
+  Mono<RestUserRecipe> updateRecipe(@Valid @RequestBody UserRecipe recipe);
 
   @DeleteMapping("/recipe")
   Mono<Void> deleteRecipe(@Valid @RequestBody Ids ids);

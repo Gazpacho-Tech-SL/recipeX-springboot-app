@@ -6,10 +6,11 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import recipeX.db.DbUserRecipe;
 import recipeX.domain.Ids;
+import recipeX.domain.UserRecipe;
 import recipeX.rest.RestUserRecipe;
 
 public interface DefaultRecipeService {
- Flux<DbUserRecipe> createRecipes(UUID userId, List<RestUserRecipe> recipes);
+ Flux<DbUserRecipe> createRecipes(UUID userId, List<UserRecipe> recipes);
 
   Mono<RestUserRecipe> getRecipe(String recipeId);
 
@@ -17,7 +18,7 @@ public interface DefaultRecipeService {
 
   Flux<RestUserRecipe> getRecipeByTags(List<String> tags);
 
-  Mono<RestUserRecipe> updateRecipe(RestUserRecipe recipe);
+  Mono<RestUserRecipe> updateRecipe(UserRecipe recipe);
 
   Mono<Void> deleteRecipe(Ids ids);
 }
