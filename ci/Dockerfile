@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-alpine
 WORKDIR /app
 
 # Copy the JAR file from the GitHub Actions workspace into the Docker image
-COPY ci/target/recipex-0.0.1-SNAPSHOT.jar ./recipex.jar
+COPY target/recipex-0.0.1-SNAPSHOT.jar ./recipex.jar
 
 # Expose the port on which the application runs
 EXPOSE 8080
