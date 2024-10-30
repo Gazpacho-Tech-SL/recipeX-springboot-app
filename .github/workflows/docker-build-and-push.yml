@@ -40,7 +40,7 @@ jobs:
 
       - name: Build JAR with Maven
         run: mvn clean install
-        working-directory: recipex
+        working-directory: .
 
       - name: Save JAR as Artifact
         uses: actions/upload-artifact@v3
