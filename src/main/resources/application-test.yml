@@ -1,0 +1,23 @@
+logging:
+ level:
+  recipeX-springboot-app: INFO
+  recipeX: DEBUG
+
+springdoc:
+ api-docs:
+  path: /v3/api-docs
+ swagger-ui:
+  path: /swagger-ui.html
+  display-request-duration: true
+  tags-sorter: alpha
+  showExtensions: true
+
+recipex:
+ aws:
+  s3:
+   region: your-aws-region-for-test-profile
+   access-key: your-aws-acess-keys-for-test-profile
+   secret-key: your-secret-key-for-test-profile
+   bucket: your-s3-bucket-name-for-test-profile
+   folder: your-s3-path-to-store-images-for-test-profile
+   url-expiration:  5

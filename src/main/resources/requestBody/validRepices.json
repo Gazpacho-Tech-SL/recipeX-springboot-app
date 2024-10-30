@@ -1,0 +1,49 @@
+[
+    {
+        "title": "Guacamole",
+        "description": "A traditional Mexican dip made from ripe avocados, lime juice, cilantro, onions, and jalapeños.",
+        "ingredients": [
+            "Ripe avocados",
+            "Lime juice",
+            "Fresh cilantro",
+            "Red onion",
+            "Jalapeño peppers",
+            "Salt"
+        ],
+        "instructions": [
+            "Mash the avocados in a bowl.",
+            "Add lime juice, cilantro, red onion, and finely chopped jalapeños.",
+            "Mix well and season with salt to taste.",
+            "Serve with tortilla chips or as a side dish."
+        ],
+        "tags": [
+            "Mexican",
+            "Dip",
+            "Vegan"
+        ]
+    },
+    {
+        "title": "Caprese Salad",
+        "description": "A simple Italian salad made with fresh tomatoes, mozzarella cheese, and basil.",
+        "ingredients": ["Fresh mozzarella", "Tomatoes", "Basil", "Olive oil", "Salt", "Pepper"],
+        "instructions": [
+            "Slice the mozzarella and tomatoes.",
+            "Layer mozzarella, tomatoes, and basil.",
+            "Drizzle with olive oil and season with salt and pepper."
+        ],
+        "tags": ["Italian", "Salad", "Vegetarian"]
+    },
+    {
+        "title": "Spaghetti Bolognese",
+        "description": "A classic Italian dish made with ground meat and tomato sauce.",
+        "ingredients": ["Spaghetti", "Ground beef", "Tomato sauce", "Onion", "Garlic"],
+        "instructions": [
+            "Cook spaghetti according to package instructions.",
+            "In a pan, cook onion and garlic until soft.",
+            "Add ground beef and cook until browned.",
+            "Pour in tomato sauce and simmer for 20 minutes.",
+            "Serve sauce over spaghetti."
+        ],
+        "tags": ["Italian", "Pasta"]
+    }
+]

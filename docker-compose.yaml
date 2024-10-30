@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  springboot-app:
+    image: raphaeleze/recipex:2.0
+    container_name: recipex-app
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/test
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

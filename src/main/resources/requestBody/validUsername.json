@@ -1,0 +1,6 @@
+{
+    "name": "name",
+    "Surname":"<optional>",
+    "email": "mail@gmail.com",
+    "password": "Crazy.Password@"
+}
