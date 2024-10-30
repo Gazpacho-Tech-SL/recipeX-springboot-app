@@ -42,18 +42,6 @@ jobs:
         run: mvn clean install
         working-directory: .
 
-      - name: Save JAR as Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: recipex-0.0.1-SNAPSHOT.jar
-          path: target/*.jar
-
-      - name: Download JAR Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: recipex-0.0.1-SNAPSHOT.jar
-          path: ci/target
-
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
