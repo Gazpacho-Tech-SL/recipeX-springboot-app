@@ -27,3 +27,4 @@ replay_pid*
 /HELP.md
 /target/
 /src/main/resources/application-local.yml
+/.idea/
