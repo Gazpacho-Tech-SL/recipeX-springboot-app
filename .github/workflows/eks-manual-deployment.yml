@@ -20,6 +20,10 @@ on:
         options:
           - dockerhub
           - ecr
+      imagetag:
+        description: 'Specific image tag to deploy (leave empty to use the latest)'
+        required: false
+        default: ''
 
 jobs:
   deploy:
@@ -56,8 +60,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
+      - name: Log in to ECR (if ECR is selected)
+        if: ${{ github.event.inputs.image_source == 'ecr' }}
+        run: |
+          aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-west-2.amazonaws.com
+
       - name: Get latest image tag from Docker Hub
-        if: ${{ github.event.inputs.image_source == 'dockerhub' }}
+        if: ${{ github.event.inputs.image_source == 'dockerhub' && github.event.inputs.imagetag == '' }}
         id: get_latest_tag_dockerhub
         run: |
           IMAGE_TAG=$(curl -s -u ${{ secrets.DOCKER_USERNAME }}:${{ secrets.DOCKER_TOKEN }} \
@@ -65,13 +74,16 @@ jobs:
           jq -r '.results | sort_by(.last_updated) | last(.[]).name')
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
 
-      - name: Get latest image tag from ECR (if ECR is selected)
-        if: ${{ github.event.inputs.image_source == 'ecr' }}
+      - name: Get latest image tag from ECR
+        if: ${{ github.event.inputs.image_source == 'ecr' && github.event.inputs.imagetag == '' }}
         id: get_latest_tag_ecr
         run: |
-          aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-west-2.amazonaws.com
           IMAGE_TAG=$(aws ecr describe-images --repository-name recipex --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[0]' --output text)
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+
+      - name: Use specific image tag if provided
+        if: ${{ github.event.inputs.imagetag != '' }}
+        run: echo "IMAGE_TAG=${{ github.event.inputs.imagetag }}" >> $GITHUB_ENV
 
       - name: Decode kubeconfig and set up kubectl
         env:
