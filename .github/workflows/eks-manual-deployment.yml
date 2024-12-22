@@ -35,7 +35,7 @@ jobs:
         with:
           repository: Gazpacho-Tech-SL/non-prod-config  # Default repo for dev and qa
           ref: main
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
           path: config
         if: ${{ github.event.inputs.environment != 'prd' }}
 
@@ -44,7 +44,7 @@ jobs:
         with:
           repository: Gazpacho-Tech-SL/prd-config  # Repo for prd environment
           ref: main
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
           path: config
         if: ${{ github.event.inputs.environment == 'prd' }}
 
