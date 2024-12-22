@@ -105,4 +105,6 @@ jobs:
 
       - name: Deploy updated Helm chart to EKS
         run: |
-          helm upgrade --install recipex spring-boot-helm -f k8s-deployment.yaml -n microservices
+          helm repo add gazpacho-helm-charts ${{ secrets.S3_REPO_URL }}
+          helm repo update
+          helm upgrade --install recipex gazpacho-helm-charts/spring-boot-chart  -f values.yaml -n microservices
