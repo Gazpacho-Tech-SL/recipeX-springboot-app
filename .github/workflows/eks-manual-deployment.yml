@@ -100,8 +100,8 @@ jobs:
           IMAGE_TAG="${{ env.IMAGE_TAG }}"
           IMAGE_REPO=$([[ ${{ github.event.inputs.image_source }} == 'dockerhub' ]] && echo 'raphaeleze/recipex' || echo "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-west-2.amazonaws.com/recipex")
           echo "Deploying to environment: $ENVIRONMENT with image: $IMAGE_REPO:$IMAGE_TAG"
-          envsubst < config/$ENVIRONMENT/recipex-values.yaml > k8s/deployment.yaml
+          envsubst < config/$ENVIRONMENT/recipex-values.yaml > k8s-deployment.yaml
 
       - name: Deploy updated Helm chart to EKS
         run: |
-          helm upgrade --install recipex spring-boot-helm -f k8s/deployment.yaml -n microservices
+          helm upgrade --install recipex spring-boot-helm -f k8s-deployment.yaml -n microservices
