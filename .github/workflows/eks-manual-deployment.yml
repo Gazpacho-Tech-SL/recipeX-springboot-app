@@ -92,8 +92,8 @@ jobs:
           KUBECONFIG_B64: ${{ secrets.EKS_KUBECONFIG }}
         run: |
           mkdir -p $HOME/.kube
-          chmod 600 $HOME/.kube/config
           echo "$KUBECONFIG_B64" | base64 --decode > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
 
       - name: Set environment-specific deployment YAML with image tag
         run: |
