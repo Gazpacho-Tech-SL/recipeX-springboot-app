@@ -33,7 +33,7 @@ jobs:
       - name: Checkout config repository for values.yaml
         uses: actions/checkout@v4
         with:
-          repository: Gazpacho-Tech-SL/non-prod-config  # Default repo for dev and qa
+          repository: Gazpacho-Tech-SL/gazpacho-non-prod-config  # Default repo for dev and qa
           ref: main
           token: ${{ secrets.PAT_TOKEN }}
           path: config
@@ -42,7 +42,7 @@ jobs:
       - name: Checkout prd-config repository for values.yaml
         uses: actions/checkout@v4
         with:
-          repository: Gazpacho-Tech-SL/prd-config  # Repo for prd environment
+          repository: Gazpacho-Tech-SL/gazpacho-prd-config  # Repo for prd environment
           ref: main
           token: ${{ secrets.PAT_TOKEN }}
           path: config
